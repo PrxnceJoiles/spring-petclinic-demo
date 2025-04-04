@@ -6,6 +6,7 @@ plugins {
   id 'org.cyclonedx.bom' version '1.10.0'
   id 'io.spring.javaformat' version '0.0.43'
   id "io.spring.nohttp" version "0.0.11"
+  id 'pl.allegro.tech.build.axion-release' version '1.13.2'
 }
 
 apply plugin: 'java'
@@ -15,7 +16,12 @@ apply plugin: 'io.spring.javaformat'
 gradle.startParameter.excludedTaskNames += [ "checkFormatAot", "checkFormatAotTest" ]
 
 group = 'org.springframework.samples'
-version = '3.4.0'
+//This iis a way to mark the version in it's development stage
+//version = '0.1.0-SNAPSHOT'
+
+//Using tags are a more effiicient way of versioning our code and we can link a specififc commit 
+//with a version number - see plugin axion release 
+version = scmVersion.version
 
 java {
   sourceCompatibility = JavaVersion.VERSION_17
@@ -88,3 +94,38 @@ checkFormatAotTest.enabled = false
 
 formatAot.enabled = false
 formatAotTest.enabled = false
+
+
+tasks.register('openTestResults') {
+    dependsOn 'build'
+    //This shows the current task depends on the build task
+
+    doFirst {
+        println 'This is executed first'
+    }
+
+    doLast {
+        def reportFile = file("$buildDir/reports/tests/test/index.html")
+
+        if (reportFile.exists()) {
+            println "Opening test report: $reportFile"
+            def osName = System.properties['os.name'].toLowerCase()
+
+            if (osName.contains('mac')) {
+                exec {
+                    commandLine 'open', reportFile.getAbsolutePath()
+                }
+            } else if (osName.contains('windows')) {
+                exec {
+                    commandLine 'cmd', '/c', 'start', reportFile.getAbsolutePath()
+                }
+            } else {
+                exec {
+                    commandLine 'xdg-open', reportFile.getAbsolutePath()
+                }
+            }
+        } else {
+            println "Test report not found: $reportFile"
+        }
+    }
+}
