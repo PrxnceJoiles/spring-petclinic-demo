@@ -20,6 +20,15 @@ group = 'org.springframework.samples'
 //This iis a way to mark the version in it's development stage
 //version = '0.1.0-SNAPSHOT'
 
+// Configure the version from SCM
+scmVersion {
+    git {
+        requireBranch = 'main'  
+        pushToRemote = 'origin'
+        // For SSH authentication
+        remote = 'origin'
+    }
+}
 //Using tags are a more effiicient way of versioning our code and we can link a specififc commit 
 //with a version number - see plugin axion release 
 version = scmVersion.version
@@ -119,6 +128,13 @@ checkFormatAotTest.enabled = false
 
 formatAot.enabled = false
 formatAotTest.enabled = false
+
+// Configure SSH for git operations
+tasks.withType(org.ajoberstar.grgit.operation.OpenOperation) {
+    credentials {
+        identity = file('~/.ssh/id_rsa')
+    }
+}
 
 
 tasks.register('openTestResults') {
