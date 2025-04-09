@@ -179,10 +179,3 @@ task uploadToNexus {
     dependsOn 'publish'
 }
 
-release {
-  git {
-    requireBranch = 'main'  // or whatever branch you use for releases
-    pushToRemote = 'origin'
-    sshKeyPath = '/.ssh/id_rsa'  // Add this line
-  }
-}
