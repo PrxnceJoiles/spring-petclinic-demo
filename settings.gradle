@@ -1,1 +1,25 @@
+
+pluginManagement {
+    repositories {
+        maven {
+            url 'http://localhost:8081/repository/maven-public/'
+            allowInsecureProtocol = true
+            // No authentication is required
+        }
+        gradlePluginPortal() // This is as fallback
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        maven {
+            url 'http://localhost:8081/repository/maven-public/'
+            allowInsecureProtocol = true
+            // No authentication is required
+        }
+        // By not including this, we force all dependencies through Nexus
+        // mavenCentral() 
+    }
+}
+
 rootProject.name = 'springer-ringer-dinner'
