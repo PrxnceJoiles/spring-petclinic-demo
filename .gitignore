@@ -11,6 +11,7 @@ build/
 !**/src/test/**/build/
 .DS_Store
 gradle.properties
+.env
 
 ### STS ###
 .attach_pid*
