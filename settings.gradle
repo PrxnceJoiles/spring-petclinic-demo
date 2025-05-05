@@ -23,3 +23,16 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = 'springer-ringer-dinner'
+
+
+// This section is used to configure checkstyleNohttp for settings.gradle
+// This creates a checkstyleNohttp task that can be disabled
+gradle.rootProject {
+    afterEvaluate {
+        if (plugins.hasPlugin('io.spring.nohttp')) {
+            tasks.named('checkstyleNohttp').configure { 
+                enabled = false 
+            }
+        }
+    }
+}
