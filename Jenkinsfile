@@ -38,6 +38,12 @@ pipeline {
                 sh './gradlew assemble -x test'
             }
         }
+
+        stage('Test Docker') {
+            steps {
+                sh 'docker version'
+            }
+        }
         
         stage('Create Docker Image') {
             steps {
